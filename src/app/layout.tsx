@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Nunito } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
+import Modal from "@/components/modals/Modal";
+import RegisterModal from "@/components/modals/RegisterModal";
 
 
 export const metadata: Metadata = {
@@ -19,8 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body  className={font.className}>
-         
-         <Navbar/>
+          {/* <Modal actionLabel="Submit" isOpen  title="hello" /> */}
+          <RegisterModal/>
+          <Navbar/>
         {children}
         
         </body>
