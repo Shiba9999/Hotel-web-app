@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import Modal from "@/components/modals/Modal";
 import RegisterModal from "@/components/modals/RegisterModal";
 import ToasterProvider from "./providers/ToasterProvider";
+import LoginModal from "@/components/modals/LoginModal";
 
 
 export const metadata: Metadata = {
@@ -22,9 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body  className={font.className}>
-          {/* <Modal actionLabel="Submit" isOpen  title="hello" /> */}
+   
           <ToasterProvider/>
           <RegisterModal/>
+          <LoginModal/>
           <Navbar/>
         {children}
         

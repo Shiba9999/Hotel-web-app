@@ -5,10 +5,12 @@ import { SlMenu } from "react-icons/sl";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
+import useLoginModal from "@/app/hooks/useLoginModal";
 
 function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
 const registerModal=useRegisterModal()
+const loginModal=useLoginModal()
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
@@ -78,7 +80,7 @@ const registerModal=useRegisterModal()
         >
           <div className="flex flex-col cursor-pointer">
             <>
-              <MenuItem onClick={() => {}} label="Login" />
+              <MenuItem onClick={loginModal.onOpen} label="Login" />
               <MenuItem onClick={registerModal.onOpen} label="Signup" />
             </>
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import useRegisterModal from "@/app/hooks/useRegisterModal";
+
 import axios from "axios";
 import React, { useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
@@ -10,10 +10,13 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
-const RegisterModal = () => {
-  const registerModal = useRegisterModal();
+import useLoginModal from "@/app/hooks/useLoginModal";
+import {  signIn, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation";
 
-
+const LoginModal = () => {
+  const loginModal = useLoginModal();
+  const router=useRouter()
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -22,7 +25,6 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -30,31 +32,29 @@ const RegisterModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-    axios
-      .post("/api/register", data)
-      .then(() => registerModal.onClose())
-      .catch((err) => {
-        toast.error("something went wrong");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    })
+    .then((callback) => {
+      setIsLoading(false);
+      if (callback?.ok) {
+     toast.success("Logged In")
+     router.refresh()
+     loginModal.onClose()
+      } if(callback?.error) {
+        toast.error(callback.error);
+      }
+    })
+     
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="welcome to Airbnb" subtitle="Create an Account" />
+      <Heading title="welcome back" subtitle="Login to your account" />
       <Input
         id="email"
         label="Email"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required={true}
-      />
-      <Input
-        id="name"
-        label="Name"
         disabled={isLoading}
         register={register}
         errors={errors}
@@ -90,7 +90,7 @@ const RegisterModal = () => {
         <div className=" justify-center flex flex-row items-center gap-2">
           <div>Already have an account ?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={loginModal.onClose}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Login
@@ -103,10 +103,10 @@ const RegisterModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Register"
+      isOpen={loginModal.isOpen}
+      title="Login"
       actionLabel="Countinue"
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -114,4 +114,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;
