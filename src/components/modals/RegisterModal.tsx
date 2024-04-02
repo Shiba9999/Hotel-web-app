@@ -10,9 +10,9 @@ import toast from "react-hot-toast";
 import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
+import { signIn } from "next-auth/react";
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
-
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,6 +40,9 @@ const RegisterModal = () => {
         setIsLoading(false);
       });
   };
+
+
+  
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -74,18 +77,18 @@ const RegisterModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button
+      {/* <Button
         onClick={() => {}}
         outline
         label="Countinue with Google"
         icon={FcGoogle}
       />
       <Button
-        onClick={() => {}}
+        onClick={()=>signIn("github")}
         outline
         label="Countinue with Github"
         icon={GrGithub}
-      />
+      /> */}
       <div className="text-neutral-500 text-center mt-4 font-light ">
         <div className=" justify-center flex flex-row items-center gap-2">
           <div>Already have an account ?</div>

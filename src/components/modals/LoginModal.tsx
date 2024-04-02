@@ -11,7 +11,7 @@ import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import {  signIn, signOut } from "next-auth/react"
+import {  signIn } from "next-auth/react"
 import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
@@ -42,7 +42,7 @@ const LoginModal = () => {
      toast.success("Logged In")
      router.refresh()
      loginModal.onClose()
-      } if(callback?.error) {
+      }else if(callback?.error) {
         toast.error(callback.error);
       }
     })
@@ -74,18 +74,18 @@ const LoginModal = () => {
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <Button
+      {/* <Button
         onClick={() => {}}
         outline
         label="Countinue with Google"
         icon={FcGoogle}
       />
       <Button
-        onClick={() => {}}
+        onClick={() => signIn("github")}
         outline
         label="Countinue with Github"
         icon={GrGithub}
-      />
+      /> */}
       <div className="text-neutral-500 text-center mt-4 font-light ">
         <div className=" justify-center flex flex-row items-center gap-2">
           <div>Already have an account ?</div>
