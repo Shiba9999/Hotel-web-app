@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import Modal from "./Modal";
 import Heading from "../Heading";
@@ -11,12 +11,14 @@ import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
 import useLoginModal from "@/app/hooks/useLoginModal";
-import {  signIn } from "next-auth/react"
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import useRegisterModal from "@/app/hooks/useRegisterModal";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
-  const router=useRouter()
+  const registerModal = useRegisterModal();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -35,20 +37,21 @@ const LoginModal = () => {
     signIn("credentials", {
       ...data,
       redirect: false,
-    })
-    .then((callback) => {
+    }).then((callback) => {
       setIsLoading(false);
       if (callback?.ok) {
-     toast.success("Logged In")
-     router.refresh()
-     loginModal.onClose()
-      }else if(callback?.error) {
+        toast.success("Logged In");
+        router.refresh();
+        loginModal.onClose();
+      } else if (callback?.error) {
         toast.error(callback.error);
       }
-    })
-     
+    });
   };
-
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="welcome back" subtitle="Login to your account" />
@@ -88,12 +91,12 @@ const LoginModal = () => {
       /> */}
       <div className="text-neutral-500 text-center mt-4 font-light ">
         <div className=" justify-center flex flex-row items-center gap-2">
-          <div>Already have an account ?</div>
+          <div>Firsttime using Airbnb ?</div>
           <div
-            onClick={loginModal.onClose}
+            onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
-            Login
+            Create an account
           </div>
         </div>
       </div>

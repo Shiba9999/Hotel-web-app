@@ -1,7 +1,7 @@
 "use client";
 import useRegisterModal from "@/app/hooks/useRegisterModal";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import Modal from "./Modal";
 import Heading from "../Heading";
@@ -11,8 +11,10 @@ import Button from "../Button";
 import { FcGoogle } from "react-icons/fc";
 import { GrGithub } from "react-icons/gr";
 import { signIn } from "next-auth/react";
+import useLoginModal from "@/app/hooks/useLoginModal";
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,6 +29,10 @@ const RegisterModal = () => {
       password: "",
     },
   });
+  const toggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen()
+  }, [loginModal, registerModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -40,9 +46,6 @@ const RegisterModal = () => {
         setIsLoading(false);
       });
   };
-
-
-  
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -93,7 +96,7 @@ const RegisterModal = () => {
         <div className=" justify-center flex flex-row items-center gap-2">
           <div>Already have an account ?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggle}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             Login
