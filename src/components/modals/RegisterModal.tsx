@@ -31,14 +31,18 @@ const RegisterModal = () => {
   });
   const toggle = useCallback(() => {
     registerModal.onClose();
-    loginModal.onOpen()
+    loginModal.onOpen();
   }, [loginModal, registerModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     axios
       .post("/api/register", data)
-      .then(() => registerModal.onClose())
+      .then(() => {
+        toast.success("Account created successfully");
+        registerModal.onClose();
+        loginModal.onOpen();
+      })
       .catch((err) => {
         toast.error("something went wrong");
       })
