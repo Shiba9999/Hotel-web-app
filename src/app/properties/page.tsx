@@ -3,7 +3,7 @@ import React from 'react'
 import getCurrentUser from '../actions/getCurrentUser'
 import EmptyState from '@/components/EmptyState'
 import getListings from '../actions/getListings'
-import PropertiesClient from './propertiesClient'
+import PropertiesClient from './PropertiesClient'
 
 
 const propertiesPage = async() => {
