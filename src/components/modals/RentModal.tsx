@@ -84,7 +84,7 @@ const RentModal = () => {
     if (step !== STEPS.PRICE) {
       return onNext();
     }
-    console.log("data",data);
+  
     setIsLoading(true);
     axios.post("/api/listings", data)
     .then(()=>{

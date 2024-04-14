@@ -9,7 +9,7 @@ import FavoritesClient from './FavoritesClient';
 const ListingPage =async () => {
 
     const listings=await getFavoriteListings();
-    console.log("listings");
+
     
     const currentUser=await getCurrentUser()
 

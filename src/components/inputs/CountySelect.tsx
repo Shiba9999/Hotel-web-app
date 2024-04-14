@@ -19,7 +19,7 @@ interface CountrySelectProps {
 
 const CountySelect: React.FC<CountrySelectProps> = ({ value, onChange }) => {
   const { getAll } = useCountries();
-  console.log("getAll", getAll());
+
 
   return (
     <div>
